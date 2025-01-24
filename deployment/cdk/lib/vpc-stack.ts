@@ -1,6 +1,9 @@
 import { App, Stack, StackProps } from 'aws-cdk-lib'
 import { CfnSubnet, CfnVPC } from 'aws-cdk-lib/aws-ec2'
 
+export const region = 'ap-northeast-1'
+export const availabilityZones = [`${region}a`, `${region}c`, `${region}d`]
+
 export class VPCStack extends Stack {
   constructor(scope: App, id: string, props?: StackProps) {
     super(scope, id, props)
@@ -22,7 +25,7 @@ export class VPCStack extends Stack {
     new CfnSubnet(this, `MyPublicSubnet`, {
       vpcId: vpc.ref,
       cidrBlock: subnetCIDR.public,
-      availabilityZone: 'ap-northeast-1',
+      availabilityZone: 'ap-northeast-1a',
       mapPublicIpOnLaunch: true,
       tags: [{ key: 'Name', value: `public-subnet` }],
     })
@@ -30,7 +33,7 @@ export class VPCStack extends Stack {
     new CfnSubnet(this, `MyPrivateSubnet`, {
       vpcId: vpc.ref,
       cidrBlock: subnetCIDR.private,
-      availabilityZone: 'ap-northeast-1',
+      availabilityZone: 'ap-northeast-1a',
       mapPublicIpOnLaunch: false,
       tags: [{ key: 'Name', value: `private-subnet` }],
     })
